@@ -1,0 +1,6 @@
+# TypeScript
+node_modules/
+dist/
+buid/
+*.js
+*.js.map
