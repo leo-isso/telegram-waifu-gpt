@@ -15,9 +15,13 @@ module.exports = {
     "sourceType": "module"
   },
   "plugins": [
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "decorator-position"
   ],
   "rules": {
+    "decorator-position/decorator-position": ["error", {
+      "position": "above"
+    }],
     "indent": [
       "error",
       2
