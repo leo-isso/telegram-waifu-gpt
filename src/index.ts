@@ -1,3 +1,7 @@
-import a from "./test";
+import { Database } from "sqlite3";
 
-console.log(a); 
+import dataSource from "./typeorm"
+
+const db = new Database("sqlite.db");
+dataSource.initialize();
+db.close();
