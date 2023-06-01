@@ -1,7 +1,7 @@
 # TypeScript
 node_modules/
 dist/
-buid/
+build/
 
 # Sqlite
 sqlite.db
