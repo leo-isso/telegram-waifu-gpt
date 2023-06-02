@@ -3,13 +3,13 @@ dotenv.config();
 
 import { Database } from "sqlite3";
 
-import dataSource from "./database/typeorm";
 import openai from "./openai/openai";
-import personality from "./database/personality";
+import personality from "./openai/personality";
+import { AppDataSource } from "./database/typeorm";
 
 
 const db = new Database("sqlite.db");
-dataSource.initialize();
+AppDataSource.initialize();
 db.close();
 
 openai.createChatCompletion({
