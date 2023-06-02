@@ -2,6 +2,18 @@
 
 An AI companion and assistant with a cute anime-girl personality!
 
+## Environment Variables
+
+Before building and running your project, create a `.env` file, and add the following variables:
+
+*You need an [OpenAI](https://platform.openai.com) account to use the project*
+
+```sh
+OPENAI_API_KEY=<your_key>
+OPENAI_API_ORG=<your_org_key>
+OPENAI_API_MODEL=<gpt_model> # eg: gpt-3.5-turbo
+```
+
 ## Building
 
 To create a production version of your app:
@@ -11,6 +23,8 @@ npm run build
 ```
 
 You can run the build with `npm run start`.
+
+> You can also use the shortcut `npm run dev`
 
 <!-- FUTURE
 
