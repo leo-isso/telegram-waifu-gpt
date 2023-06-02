@@ -1,5 +1,7 @@
 // rollup.config.js
 import typescript from "@rollup/plugin-typescript";
+import dotenv from "rollup-plugin-dotenv";
+
 
 export default {
   input: "src/index.ts",
@@ -11,5 +13,6 @@ export default {
     typescript({
       tsconfig: "./tsconfig.json",
     }),
+    dotenv()
   ],
 };
