@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Generated, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Chat {
@@ -6,8 +6,9 @@ export class Chat {
   id: number;
 
   @Column()
+  @Generated("uuid")
   chatId: number;
 
   @Column()
-  userId: boolean;
+  userId: number;
 }
