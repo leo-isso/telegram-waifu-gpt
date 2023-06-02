@@ -5,3 +5,6 @@ build/
 
 # Sqlite
 sqlite.db
+
+# Misc
+.env
