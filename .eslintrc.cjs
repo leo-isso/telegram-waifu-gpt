@@ -20,7 +20,7 @@ module.exports = {
   ],
   "rules": {
     "decorator-position/decorator-position": ["error", {
-      "position": "above"
+      "methods": "above",
     }],
     "indent": [
       "error",
