@@ -5,6 +5,7 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
+    "dev": "npm run build && npm run start",
     "build": "rimraf build && tsc && rollup -c rollup.config.js",
     "start": "node build/bundle.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
