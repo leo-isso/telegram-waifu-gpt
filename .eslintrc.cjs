@@ -19,12 +19,14 @@ module.exports = {
     "decorator-position"
   ],
   "rules": {
-    "decorator-position/decorator-position": ["error", {
-      "methods": "above",
-    }],
+    "decorator-position/decorator-position": [
+      "error",
+      { "methods": "above", "properties": "above" }
+    ],
     "indent": [
       "error",
-      2
+      2,
+      { "ignoredNodes": ["PropertyDefinition"] }
     ],
     "linebreak-style": [
       "error",
