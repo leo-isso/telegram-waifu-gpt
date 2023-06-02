@@ -1,12 +1,11 @@
 import * as dotenv from "dotenv";
-dotenv.config();
-
 import { Database } from "sqlite3";
 
 import openai from "./openai/openai";
 import personality from "./openai/personality";
 import { AppDataSource } from "./database/typeorm";
 
+dotenv.config();
 
 const db = new Database("sqlite.db");
 AppDataSource.initialize();
