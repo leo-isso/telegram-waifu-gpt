@@ -1,5 +1,5 @@
 import { DataSource } from "typeorm";
-import { Chat } from "./Chat";
+import { Chat } from "../domains/chat/entities";
 
 export default new DataSource({
   type: "sqlite",

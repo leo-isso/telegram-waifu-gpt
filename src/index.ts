@@ -3,9 +3,9 @@ dotenv.config();
 
 import { Database } from "sqlite3";
 
-import dataSource from "./typeorm";
-import openai from "./openai";
-import personality from "./personality";
+import dataSource from "./database/typeorm";
+import openai from "./openai/openai";
+import personality from "./database/personality";
 
 
 const db = new Database("sqlite.db");
