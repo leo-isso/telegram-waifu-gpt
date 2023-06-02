@@ -6,7 +6,7 @@ export class Chat {
   id: number;
 
   @Column()
-  gptChatId: number;
+  chatId: number;
 
   @Column()
   userId: boolean;
