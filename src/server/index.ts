@@ -16,7 +16,7 @@ class Server {
 
   private initMiddlewares() {
     this.server.use(express.json());
-    this.server.use(webhookCallback(this.telegramBot.bot, "express"));
+    this.server.use(webhookCallback(this.telegramBot.bot, "express", "return", 50000));
   }
 
   init() {
