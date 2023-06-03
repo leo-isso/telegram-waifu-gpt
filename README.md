@@ -11,7 +11,10 @@ Before building and running your project, create a `.env` file, and add the foll
 ```sh
 OPENAI_API_KEY=<your_key>
 OPENAI_API_ORG=<your_org_key>
-OPENAI_API_MODEL=<gpt_model> # eg: gpt-3.5-turbo
+OPENAI_API_MODEL=<gpt_model> # eg: gpt-3.5-turboOPENAI_API_KEY=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
+SERVER_HOST=http://localhost
+SERVER_PORT=3000
+#DEBUG="grammy*" # To debug grammy bot
 ```
 
 ## Building
