@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Express } from "express";
 
-const app: Express = express();
+const server: Express = express();
 
-export default app;
+export default server;
