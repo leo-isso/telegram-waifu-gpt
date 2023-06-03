@@ -9,9 +9,10 @@ Before building and running your project, create a `.env` file, and add the foll
 *You need an [OpenAI](https://platform.openai.com) account to use the project*
 
 ```sh
-OPENAI_API_KEY=<your_key>
+OPENAI_API_KEY=<your_api_key>
 OPENAI_API_ORG=<your_org_key>
 OPENAI_API_MODEL=<gpt_model> # eg: gpt-3.5-turboOPENAI_API_KEY=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
+TELEGRAM_BOT_KEY=<your_bot_key>
 SERVER_HOST=http://localhost
 SERVER_PORT=3000
 #DEBUG="grammy*" # To debug grammy bot
