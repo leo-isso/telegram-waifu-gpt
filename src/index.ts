@@ -16,8 +16,8 @@ openai.createChatCompletion({
   messages: [
     getPersonalityMessage(),
     {
-      role: "user",
-      content: "Hey, who are you? Can you tell me how was your day today?"
+      role: "system",
+      content: "Introduce yourself, greet the user, and ask him how he is doing."
     }
   ],
   temperature: 0,
