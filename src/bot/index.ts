@@ -1,11 +1,22 @@
 import { Bot } from "grammy";
 
-const telegramBotKey = process.env.TELEGRAM_BOT_KEY;
+import { initTelegramBot } from "./events";
 
-if (!telegramBotKey) {
-  throw Error("Missing TELEGRAM_BOT_KEY");
+class TelegramBot {
+  private botKey = process.env.TELEGRAM_BOT_KEY;
+  bot: Bot;
+
+  constructor() {
+    if (!this.botKey) {
+      throw Error("Missing TELEGRAM_BOT_KEY");
+    }
+    this.bot = new Bot(this.botKey);
+  }
+
+  init() {
+    initTelegramBot(this);
+  }
+
 }
 
-const telegramBot = new Bot(telegramBotKey);
-
-export default telegramBot;
+export default TelegramBot;
