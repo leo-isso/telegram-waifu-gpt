@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import { Database } from "sqlite3";
 
 import server from "./server";
-import openai from "./openai/openai";
+import openai from "./openai";
 import { getPersonalityMessage } from "./openai/personality";
 import { AppDataSource } from "./database/typeorm";
 import bot from "./bot";
