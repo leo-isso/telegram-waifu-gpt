@@ -21,4 +21,26 @@ export function initTelegramBot(telegramBot: TelegramBot) {
 
       ctx.reply(chat_gpt_answer);
     });
+
+  telegramBot.bot.on("message",
+    async (ctx) => {
+      if (ctx.message.text) {
+        const gpt_response = await openai.createChatCompletion({
+          model: process.env.OPENAI_API_MODEL || "gpt-3.5-turbo",
+          messages: [
+            getPersonalityMessage(),
+            {
+              role: "user",
+              content: ctx.message.text
+            }
+          ],
+          temperature: 0,
+        });
+
+        const chat_gpt_answer = gpt_response.data.choices[0]?.message?.content || "Not available.";
+
+        ctx.reply(chat_gpt_answer);
+      }
+    }
+  );
 }
