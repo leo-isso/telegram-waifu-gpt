@@ -1,6 +1,9 @@
 import TelegramBot from ".";
 import openai from "../openai";
-import { getPersonalityMessage } from "../openai/personality";
+import nyanna from "../openai/personalities/nyanna";
+import PersonalityPrompt from "../openai/personalityPrompt";
+
+const personalityPrompt = new PersonalityPrompt(nyanna).getPersonalityPrompt();
 
 export function initTelegramBot(telegramBot: TelegramBot) {
   telegramBot.bot.command("start",
@@ -8,7 +11,7 @@ export function initTelegramBot(telegramBot: TelegramBot) {
       const gpt_response = await openai.createChatCompletion({
         model: process.env.OPENAI_API_MODEL || "gpt-3.5-turbo",
         messages: [
-          getPersonalityMessage(),
+          ...personalityPrompt,
           {
             role: "system",
             content: "Introduce yourself, greet the user, and ask him how he is doing."
@@ -28,7 +31,7 @@ export function initTelegramBot(telegramBot: TelegramBot) {
         const gpt_response = await openai.createChatCompletion({
           model: process.env.OPENAI_API_MODEL || "gpt-3.5-turbo",
           messages: [
-            getPersonalityMessage(),
+            ...personalityPrompt,
             {
               role: "user",
               content: ctx.message.text
