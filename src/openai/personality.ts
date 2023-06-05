@@ -7,6 +7,10 @@ class Personality {
 
   constructor(name: string) {
     this.name = name;
+    this.introduction = null;
+    this.characteristics = [];
+    this.behaviors = [];
+    this.restrictions = [];
   }
 
   addCharacteristic(characteristic: string) {
