@@ -10,11 +10,10 @@ class PersonalityPrompt {
   }
 
   private buildPrompt(prefix: string, prompts: string[]) {
-    const characteristicsText = prompts.reduce(
+    return prompts.reduce(
       (prev, curr) => {
         return `${prev}\n${curr}`;
       }, prefix);
-    return characteristicsText;
   }
 
   getPersonalityPrompt(): ChatCompletionRequestMessage[] {
@@ -26,8 +25,8 @@ class PersonalityPrompt {
     }
 
     prompt.push({ role: "system", content: this.buildPrompt("You are:\n", this.personality.characteristics) });
-    prompt.push({ role: "system", content: this.buildPrompt("Your behavior:\n", this.personality.characteristics) });
-    prompt.push({ role: "system", content: this.buildPrompt("Your restrictions:\n", this.personality.characteristics) });
+    prompt.push({ role: "system", content: this.buildPrompt("Your behavior:\n", this.personality.behaviors) });
+    prompt.push({ role: "system", content: this.buildPrompt("Your restrictions:\n", this.personality.restrictions) });
 
     return prompt;
   }
