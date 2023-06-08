@@ -12,4 +12,8 @@ export class Chat {
 
   @OneToMany(() => Message, message => message.chat)
   messages: Relation<Message>[];
+
+  // createdAt as Unix Timestamp
+  @Column({ type: "timestamptz" })
+  createdAt: Date;
 }
