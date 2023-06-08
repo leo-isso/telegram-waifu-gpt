@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, Relation } from "typeorm";
 
 import { Message } from "../message/entities";
 
@@ -11,5 +11,5 @@ export class Chat {
   userId: number;
 
   @OneToMany(() => Message, message => message.chat)
-  messages: Message[];
+  messages: Relation<Message>[];
 }
