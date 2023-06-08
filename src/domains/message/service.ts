@@ -1,4 +1,4 @@
-import { ChatCompletionResponseMessageRoleEnum } from "openai";
+import { ChatCompletionRequestMessage, ChatCompletionResponseMessageRoleEnum } from "openai";
 
 import { Message } from "./entities";
 import { AppDataSource } from "../../database/typeorm";
@@ -7,7 +7,7 @@ class MessageService {
   repository = AppDataSource.getRepository(Message);
 
   async create(
-    role: ChatCompletionResponseMessageRoleEnum,
+    role: ChatCompletionResponseMessageRoleEnum | ChatCompletionRequestMessage,
     message: string,
     chatId: string
   ) {
