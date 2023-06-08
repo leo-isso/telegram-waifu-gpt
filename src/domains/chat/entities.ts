@@ -14,6 +14,6 @@ export class Chat {
   messages: Relation<Message>[];
 
   // createdAt as Unix Timestamp
-  @Column({ type: "timestamptz" })
-  createdAt: Date;
+  @Column({ type: "integer" })
+  createdAt: number;
 }
