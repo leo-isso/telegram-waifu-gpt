@@ -1,5 +1,6 @@
-import { AppDataSource } from "../../database/typeorm";
 import { Chat } from "./entities";
+import logger from "../../logger";
+import { AppDataSource } from "../../database/typeorm";
 
 class ChatService {
   repository = AppDataSource.getRepository(Chat);
@@ -7,7 +8,24 @@ class ChatService {
   async create(userId: number) {
     const chat = new Chat();
     chat.userId = userId;
-    await this.repository.save(chat);
+
+    return await this.repository.save(chat);
+  }
+
+  async get(userId: number) {
+    return this.repository.findOneBy({ userId });
+  }
+
+  async getOrCreate(userId: number) {
+    try {
+      let chat = await this.get(userId);
+      if (chat === null) {
+        chat = await this.create(userId);
+      }
+      return chat;
+    } catch (error) {
+      logger.error(error);
+    }
   }
 
 }
