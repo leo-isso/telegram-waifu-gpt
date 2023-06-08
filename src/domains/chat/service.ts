@@ -19,15 +19,11 @@ class ChatService {
   }
 
   async getOrCreate(userId: number) {
-    try {
-      let chat = await this.get(userId);
-      if (chat === null) {
-        chat = await this.create(userId);
-      }
-      return chat;
-    } catch (error) {
-      logger.error(error);
+    let chat = await this.get(userId);
+    if (chat === null) {
+      chat = await this.create(userId);
     }
+    return chat;
   }
 
 }
