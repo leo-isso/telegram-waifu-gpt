@@ -28,12 +28,13 @@ export function initTelegramBot(telegramBot: TelegramBot) {
       if (userId) {
         const chat = await chatService.getOrCreate(userId);
         // Creates Messages history
-        const promises = messages.map(message => messageService.create(
-          message.role,
-          message.content,
-          chat.id
-        ));
-        Promise.all(promises);
+        for (const message of messages) {
+          messageService.create(
+            message.role,
+            message.content,
+            chat.id
+          );
+        }
       }
 
       // Gets ChatGPT response
