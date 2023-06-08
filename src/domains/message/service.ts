@@ -2,7 +2,7 @@ import { ChatCompletionRequestMessageRoleEnum, ChatCompletionResponseMessageRole
 
 import { Message } from "./entities";
 import { AppDataSource } from "../../database/typeorm";
-import { dateNowUnixTime } from "../../utils/datetime";
+import { dateNowToTimestamp } from "../../utils/datetime";
 
 class MessageService {
   repository = AppDataSource.getRepository(Message);
@@ -16,7 +16,7 @@ class MessageService {
     chatMessage.role = role;
     chatMessage.message = message;
     chatMessage.chatId = chatId;
-    chatMessage.createdAt = dateNowUnixTime();
+    chatMessage.createdAt = dateNowToTimestamp();
 
     return await this.repository.save(chatMessage);
   }
