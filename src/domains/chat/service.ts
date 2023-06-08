@@ -1,6 +1,7 @@
 import { Chat } from "./entities";
 import logger from "../../logger";
 import { AppDataSource } from "../../database/typeorm";
+import { dateNowUnixTime } from "../../utils/datetime";
 
 class ChatService {
   repository = AppDataSource.getRepository(Chat);
@@ -8,6 +9,7 @@ class ChatService {
   async create(userId: number) {
     const chat = new Chat();
     chat.userId = userId;
+    chat.createdAt = dateNowUnixTime();
 
     return await this.repository.save(chat);
   }
