@@ -6,6 +6,7 @@ import openai from "../openai";
 import nyanna from "../openai/personalities/nyanna";
 import PersonalityPrompt from "../openai/personalityPrompt";
 import MessageService from "../domains/message/service";
+import { Message } from "../domains/message/entities";
 
 const personalityPrompt = new PersonalityPrompt(nyanna).getPersonalityPrompt();
 const chatService = new ChatService();
@@ -27,13 +28,12 @@ export function initTelegramBot(telegramBot: TelegramBot) {
       if (userId) {
         const chat = await chatService.getOrCreate(userId);
         // Creates Messages history
-        if (chat) {
-          const promises = messages.map(message => messageService.create(
+        for (const message of messages) {
+          messageService.create(
             message.role,
             message.content,
             chat.id
-          ));
-          Promise.all(promises);
+          );
         }
       }
 
@@ -48,17 +48,50 @@ export function initTelegramBot(telegramBot: TelegramBot) {
   telegramBot.bot.on("message",
     async (ctx) => {
       if (ctx.message.text) {
-        const userMessage = ctx.message.text;
+        // Gets context data
+        const userMessageContent = ctx.message.text;
+        const userId = ctx.from.id;
+
+
+        // Gets latest messages
+        const chat = await chatService.getOrCreate(userId);
+        const latestChatMessages = (await messageService.getLatestMessages(chat.id))
+          .map(message => ({
+            role: message.role,
+            content: message.message
+          }));
+        const userMessage: ChatCompletionRequestMessage = {
+          role: "user",
+          content: userMessageContent
+        };
+
+        // Sets message history
         const messages: ChatCompletionRequestMessage[] = [
           ...personalityPrompt,
-          {
-            role: "user",
-            content: userMessage
-          }
+          ...latestChatMessages,
+          userMessage
         ];
+
+        // Gets ChatGPT response
         const gpt_response = await openai.createChatCompletion(messages);
         const chat_gpt_answer = gpt_response.data.choices[0]?.message?.content || "Not available.";
 
+        // Create new messages list
+        const newMessages: ChatCompletionRequestMessage[] = [
+          userMessage,
+          { role: "assistant", content: chat_gpt_answer }
+        ];
+
+        // Adds new messages to database
+        for (const message of newMessages) {
+          messageService.create(
+            message.role,
+            message.content,
+            chat.id
+          );
+        }
+
+        // Replies user
         ctx.reply(chat_gpt_answer);
       }
     }
