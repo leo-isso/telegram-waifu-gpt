@@ -20,3 +20,6 @@ telegramBot.init();
 // Server setup
 const server = new Server(telegramBot);
 server.init();
+
+// Config
+export const DEFAULT_LATEST_MESSAGES = 10;
