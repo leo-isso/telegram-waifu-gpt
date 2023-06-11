@@ -5,9 +5,9 @@ import { AppDataSource } from "../../database/typeorm";
 import { dateNowToTimestamp } from "../../utils/datetime";
 
 class MessageService {
-  repository = AppDataSource.getRepository(Message);
+  static repository = AppDataSource.getRepository(Message);
 
-  async create(
+  static async create(
     role: ChatCompletionResponseMessageRoleEnum | ChatCompletionRequestMessageRoleEnum,
     message: string,
     chatId: string
@@ -18,15 +18,15 @@ class MessageService {
     chatMessage.chatId = chatId;
     chatMessage.createdAt = dateNowToTimestamp();
 
-    return await this.repository.save(chatMessage);
+    return await MessageService.repository.save(chatMessage);
   }
 
-  async get(chatId: string) {
-    return this.repository.find({ where: { chatId } });
+  static async get(chatId: string) {
+    return MessageService.repository.find({ where: { chatId } });
   }
 
-  async getLatestMessages(chatId: string, limit = 16) {
-    return this.repository.find({
+  static async getLatestMessages(chatId: string, limit = 16) {
+    return MessageService.repository.find({
       where: { chatId },
       order: { createdAt: "DESC" },
       take: limit
