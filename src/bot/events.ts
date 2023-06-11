@@ -49,7 +49,6 @@ export function initTelegramBot(telegramBot: TelegramBot) {
         const userMessageContent = ctx.message.text;
         const userId = ctx.from.id;
 
-
         // Gets latest messages
         const chat = await ChatService.getOrCreate(userId);
         const latestChatMessages = (await MessageService.getLatestMessages(chat.id))
@@ -68,7 +67,6 @@ export function initTelegramBot(telegramBot: TelegramBot) {
           ...latestChatMessages,
           userMessage
         ];
-        console.log(latestChatMessages);
 
         // Gets ChatGPT response
         const gpt_response = await openai.createChatCompletion(messages);
