@@ -1,5 +1,6 @@
 import { ChatCompletionRequestMessageRoleEnum, ChatCompletionResponseMessageRoleEnum } from "openai";
 
+import { DEFAULT_LATEST_MESSAGES } from "../..";
 import { Message } from "./entities";
 import { AppDataSource } from "../../database/typeorm";
 import { dateNowToTimestamp } from "../../utils/datetime";
@@ -25,7 +26,7 @@ class MessageService {
     return MessageService.repository.find({ where: { chatId } });
   }
 
-  static async getLatestMessages(chatId: string, limit = 16) {
+  static async getLatestMessages(chatId: string, limit = DEFAULT_LATEST_MESSAGES) {
     return MessageService.repository.find({
       where: { chatId },
       order: { createdAt: "DESC" },
