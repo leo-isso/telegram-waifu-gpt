@@ -6,11 +6,8 @@ import openai from "../openai";
 import nyanna from "../openai/personalities/nyanna";
 import PersonalityPrompt from "../openai/personalityPrompt";
 import MessageService from "../domains/message/service";
-import { Message } from "../domains/message/entities";
 
 const personalityPrompt = new PersonalityPrompt(nyanna).getPersonalityPrompt();
-const chatService = new ChatService();
-const messageService = new MessageService();
 
 export function initTelegramBot(telegramBot: TelegramBot) {
   telegramBot.bot.command("start",
@@ -26,10 +23,10 @@ export function initTelegramBot(telegramBot: TelegramBot) {
       // Creates or get user
       const userId = ctx.from?.id;
       if (userId) {
-        const chat = await chatService.getOrCreate(userId);
+        const chat = await ChatService.getOrCreate(userId);
         // Creates Messages history
         for (const message of messages) {
-          messageService.create(
+          MessageService.create(
             message.role,
             message.content,
             chat.id
@@ -54,12 +51,12 @@ export function initTelegramBot(telegramBot: TelegramBot) {
 
 
         // Gets latest messages
-        const chat = await chatService.getOrCreate(userId);
-        const latestChatMessages = (await messageService.getLatestMessages(chat.id))
+        const chat = await ChatService.getOrCreate(userId);
+        const latestChatMessages = (await MessageService.getLatestMessages(chat.id))
           .map(message => ({
             role: message.role,
             content: message.message
-          }));
+          })).reverse();
         const userMessage: ChatCompletionRequestMessage = {
           role: "user",
           content: userMessageContent
@@ -71,6 +68,7 @@ export function initTelegramBot(telegramBot: TelegramBot) {
           ...latestChatMessages,
           userMessage
         ];
+        console.log(latestChatMessages);
 
         // Gets ChatGPT response
         const gpt_response = await openai.createChatCompletion(messages);
@@ -84,7 +82,7 @@ export function initTelegramBot(telegramBot: TelegramBot) {
 
         // Adds new messages to database
         for (const message of newMessages) {
-          messageService.create(
+          MessageService.create(
             message.role,
             message.content,
             chat.id
