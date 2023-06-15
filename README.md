@@ -30,8 +30,6 @@ You can run the build with `npm run start`.
 
 > You can also use the shortcut `npm run dev`
 
-<!-- FUTURE
-
 ## Docker
 
 To run the project using Docker:
@@ -48,4 +46,4 @@ Run the docker detached from your console with the flag `-d`
 docker run -d -p 3000:3000 telegram-waifu-gpt 
 ```
 
-> You can also add a name to the docker using `--name <my-container-name>` -->
+> You can also add a name to the docker using `--name <my-container-name>`
