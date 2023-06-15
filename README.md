@@ -47,8 +47,6 @@ Run docker-compose detached from your console:
 docker-compose up -d
 ```
 
-
-
 ## Docker
 
 To run the project using only Docker:
