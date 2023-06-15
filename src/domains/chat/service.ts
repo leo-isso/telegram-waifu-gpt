@@ -1,5 +1,5 @@
 import { Chat } from "./entities";
-import { AppDataSource } from "../../database/typeorm";
+import { AppDataSource } from "../../data/typeorm";
 import { dateNowToTimestamp } from "../../utils/datetime";
 
 class ChatService {

@@ -1,7 +1,7 @@
 import * as dotenv from "dotenv";
 import { Database } from "sqlite3";
 
-import { AppDataSource } from "./database/typeorm";
+import { AppDataSource } from "./data/typeorm";
 import TelegramBot from "./bot";
 import Server from "./server";
 
