@@ -8,9 +8,9 @@ import PersonalityPrompt from "../openai/personalityPrompt";
 import MessageService from "../domains/message/service";
 import MessageCache from "../domains/message/cache";
 import { ChatCompletionMessage } from "../domains/message/messages.types";
+import logger from "../logger";
 
 const personalityPrompt = new PersonalityPrompt(nyanna).getPersonalityPrompt();
-
 export function initTelegramBot(telegramBot: TelegramBot) {
   telegramBot.bot.command("start",
     async (ctx) => {
@@ -47,19 +47,25 @@ export function initTelegramBot(telegramBot: TelegramBot) {
   telegramBot.bot.on("message",
     async (ctx) => {
       if (ctx.message.text) {
+        const messageCache = new MessageCache();
+
         // Gets context data
         const userMessageContent = ctx.message.text;
         const userId = ctx.from.id;
 
         // Gets latest messages
         const chat = await ChatService.getOrCreate(userId);
-        const latestChatMessages: ChatCompletionMessage[] = (await MessageService.getLatestMessages(chat.id))
-          .map(message => ({
-            role: message.role,
-            content: message.message
-          }))
-          .reverse();
+       
+        let latestChatMessages: ChatCompletionMessage[] = await messageCache.findLatest(chat.id);
         
+        if (latestChatMessages.length < 1) {
+          latestChatMessages= (await MessageService.getLatestMessages(chat.id))
+            .map(message => ({
+              role: message.role,
+              content: message.message
+            }))
+            .reverse();
+        }
         const userMessage: ChatCompletionRequestMessage = {
           role: "user",
           content: userMessageContent
@@ -92,7 +98,6 @@ export function initTelegramBot(telegramBot: TelegramBot) {
         }
 
         // Caches Messages history
-        const messageCache = new MessageCache();
         messageCache.create(chat.id, newMessages);
 
         // Replies user
