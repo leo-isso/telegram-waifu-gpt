@@ -34,9 +34,6 @@ export function initTelegramBot(telegramBot: TelegramBot) {
             chat.id
           );
         }
-        // Caches Messages history
-        const messageCache = new MessageCache();
-        messageCache.create(chat.id, messages);
       }
 
       // Gets ChatGPT response
@@ -93,6 +90,10 @@ export function initTelegramBot(telegramBot: TelegramBot) {
             chat.id
           );
         }
+
+        // Caches Messages history
+        const messageCache = new MessageCache();
+        messageCache.create(chat.id, newMessages);
 
         // Replies user
         ctx.reply(chat_gpt_answer);
