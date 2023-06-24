@@ -4,7 +4,8 @@ WORKDIR /usr/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build
+COPY ./entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-expose 3000
-ENTRYPOINT ["node", "./build/bundle.cjs"]
+EXPOSE 3000
+ENTRYPOINT ["/entrypoint.sh"]
