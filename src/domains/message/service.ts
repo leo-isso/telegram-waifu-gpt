@@ -2,7 +2,7 @@ import { ChatCompletionRequestMessageRoleEnum, ChatCompletionResponseMessageRole
 
 import { DEFAULT_LATEST_MESSAGES } from "../..";
 import { Message } from "./entities";
-import { AppDataSource } from "../../database/typeorm";
+import { AppDataSource } from "../../data/typeorm";
 import { dateNowToTimestamp } from "../../utils/datetime";
 
 class MessageService {

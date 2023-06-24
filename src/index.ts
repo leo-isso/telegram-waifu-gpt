@@ -1,12 +1,17 @@
 import * as dotenv from "dotenv";
 import { Database } from "sqlite3";
 
-import { AppDataSource } from "./database/typeorm";
+import { AppDataSource } from "./data/typeorm";
 import TelegramBot from "./bot";
 import Server from "./server";
+import Redis from "./cache";
 
 // Environment setup
 dotenv.config();
+
+// Cache setup
+export const cache = new Redis();
+cache.init();
 
 // Database setup
 const db = new Database("sqlite.db");

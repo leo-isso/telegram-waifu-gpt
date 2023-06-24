@@ -15,6 +15,9 @@ OPENAI_API_MODEL=<gpt_model> # eg: gpt-3.5-turbo
 TELEGRAM_BOT_KEY=<your_bot_key>
 SERVER_HOST=http://localhost
 SERVER_PORT=3000
+REDIS_HOST=redis # Set either the name of the service on docker-compose.yml or the redis url 
+REDIS_PORT=6379
+REDIS_PASSWORD=<your_redis_password>
 #DEBUG="grammy*" # To debug grammy bot
 ```
 
@@ -30,11 +33,25 @@ You can run the build with `npm run start`.
 
 > You can also use the shortcut `npm run dev`
 
-<!-- FUTURE
+## Docker Compose
+
+In order to make deployes easier, and also add other services, like Redis, you can run the project with `docker-compose`:
+
+Build the docker-compose:
+
+```bash
+docker-compose build
+```
+
+Run docker-compose detached from your console:
+
+```bash
+docker-compose up -d
+```
 
 ## Docker
 
-To run the project using Docker:
+To run the project using only Docker:
 
 Build the docker image
 
@@ -48,4 +65,4 @@ Run the docker detached from your console with the flag `-d`
 docker run -d -p 3000:3000 telegram-waifu-gpt 
 ```
 
-> You can also add a name to the docker using `--name <my-container-name>` -->
+> You can also add a name to the docker using `--name <my-container-name>`

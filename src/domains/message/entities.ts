@@ -1,7 +1,7 @@
-import { ChatCompletionRequestMessageRoleEnum, ChatCompletionResponseMessageRoleEnum } from "openai";
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Relation } from "typeorm";
 
 import { Chat } from "../chat/entities";
+import { ChatCompletionResponseMessageRoleEnum, ChatCompletionRequestMessageRoleEnum } from "openai";
 
 @Entity()
 export class Message {
@@ -9,7 +9,7 @@ export class Message {
   id: string;
 
   @Column()
-  role: ChatCompletionResponseMessageRoleEnum | ChatCompletionRequestMessageRoleEnum;
+  role: ChatCompletionRequestMessageRoleEnum | ChatCompletionResponseMessageRoleEnum;
 
   @Column()
   message: string;

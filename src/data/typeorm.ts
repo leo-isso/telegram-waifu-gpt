@@ -6,7 +6,7 @@ export const AppDataSource = new DataSource({
   type: "sqlite",
   database: "sqlite.db",
   synchronize: true,
-  logging: true,
+  logging: false,
   entities: [Chat, Message],
   subscribers: [],
   migrations: [],
