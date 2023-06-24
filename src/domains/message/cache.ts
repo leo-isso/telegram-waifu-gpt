@@ -8,29 +8,33 @@ class MessageCache {
     this.client = redis;
   }
 
-  async create(chatId: string, data: ChatCompletionMessage): Promise<void> {
-    const hashKey = this._buildHashKey(chatId);
-    const hashValues = this._buildHashValues(data);
-    await this.client.hSet(hashKey, hashValues);
+  async create(chatId: string, data: ChatCompletionMessage[]): Promise<void> {
+    const listKey = this._buildListKey(chatId);
+    const listValues = this._buildListValues(data);
+    
+    listValues.forEach(message => {
+      this.client.rPush(listKey, message);
+    });
   }
 
-  async findOne(chatId: string): Promise<object | null> {
-    const hashKey = this._buildHashKey(chatId);
-    return this.client.hGetAll(hashKey);
+  async findOne(chatId: string, count=-10): Promise<ChatCompletionMessage[]> {
+    const listKey = this._buildListKey(chatId);
+    const messages = await this.client.lRange(listKey, count, -1);
+    return messages.map(message => JSON.parse(message));
   }
 
-  private _buildHashKey(chatId: string): string {
+  private _buildListKey(chatId: string): string {
     return `namespace:${chatId}`;
   }
 
-  private _buildHashValues(data: object): string[] {
-    const hashValues: string[] = [];
+  private _buildListValues(data: ChatCompletionMessage[]): string[] {
+    const listValues: string[] = [];
 
-    Object.entries(data).forEach(([key, value]) => {
-      hashValues.push(key, JSON.stringify(value));
+    data.forEach(message => {
+      listValues.push(JSON.stringify(message));
     });
 
-    return hashValues;
+    return listValues;
   }
 }
 
