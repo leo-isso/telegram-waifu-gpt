@@ -4,6 +4,7 @@ import { Database } from "sqlite3";
 import { AppDataSource } from "./data/typeorm";
 import TelegramBot from "./bot";
 import Server from "./server";
+import Redis from "./cache";
 
 // Environment setup
 dotenv.config();
@@ -12,6 +13,10 @@ dotenv.config();
 const db = new Database("sqlite.db");
 AppDataSource.initialize();
 db.close();
+
+// Cache setup
+export const cache = new Redis();
+cache.init();
 
 // Bot setup with long polling
 const telegramBot = new TelegramBot();

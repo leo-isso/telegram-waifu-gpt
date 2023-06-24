@@ -2,18 +2,21 @@ import { createClient } from "redis";
 
 export type RedisClient = ReturnType<typeof createClient>
 
-const redis = createClient({
-  socket: {
-    host: process.env.REDIS_HOST,
-    port: parseInt(process.env.REDIS_PORT || "6379")
-  },
-  password: process.env.REDIS_PASSWORD
-});
+class Redis {
+  redis: RedisClient = createClient({
+    socket: {
+      host: process.env.REDIS_HOST,
+      port: parseInt(process.env.REDIS_PORT || "6379")
+    },
+    password: process.env.REDIS_PASSWORD
+  });
 
-redis.on("connect", () => {
-  console.log("Connected to Redis server");
-});
+  init() {
+    this.redis.on("connect", () => {
+      console.log("Connected to REDIS");
+    });
+    this.redis.connect();
+  }
+}
 
-redis.connect();
-
-export default redis;
+export default Redis;
