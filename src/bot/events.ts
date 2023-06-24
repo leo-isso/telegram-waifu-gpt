@@ -6,6 +6,8 @@ import openai from "../openai";
 import nyanna from "../openai/personalities/nyanna";
 import PersonalityPrompt from "../openai/personalityPrompt";
 import MessageService from "../domains/message/service";
+import MessageCache from "../domains/message/cache";
+import { ChatCompletionMessage } from "../domains/message/messages.types";
 
 const personalityPrompt = new PersonalityPrompt(nyanna).getPersonalityPrompt();
 
@@ -26,12 +28,15 @@ export function initTelegramBot(telegramBot: TelegramBot) {
         const chat = await ChatService.getOrCreate(userId);
         // Creates Messages history
         for (const message of messages) {
-          MessageService.create(
+          await MessageService.create(
             message.role,
             message.content,
             chat.id
           );
         }
+        // Caches Messages history
+        const messageCache = new MessageCache();
+        messageCache.create(chat.id, messages);
       }
 
       // Gets ChatGPT response
@@ -51,18 +56,20 @@ export function initTelegramBot(telegramBot: TelegramBot) {
 
         // Gets latest messages
         const chat = await ChatService.getOrCreate(userId);
-        const latestChatMessages = (await MessageService.getLatestMessages(chat.id))
+        const latestChatMessages: ChatCompletionMessage[] = (await MessageService.getLatestMessages(chat.id))
           .map(message => ({
             role: message.role,
             content: message.message
-          })).reverse();
+          }))
+          .reverse();
+        
         const userMessage: ChatCompletionRequestMessage = {
           role: "user",
           content: userMessageContent
         };
 
         // Sets message history
-        const messages: ChatCompletionRequestMessage[] = [
+        const messages: ChatCompletionMessage[] = [
           ...personalityPrompt,
           ...latestChatMessages,
           userMessage
