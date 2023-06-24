@@ -11,11 +11,11 @@ class Redis {
     password: process.env.REDIS_PASSWORD
   });
 
-  init() {
+  async init() {
     this.redis.on("connect", () => {
       console.log("Connected to REDIS");
     });
-    this.redis.connect();
+    await this.redis.connect();
   }
 }
 
