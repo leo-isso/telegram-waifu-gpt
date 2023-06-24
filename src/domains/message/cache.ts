@@ -14,14 +14,15 @@ class MessageCache {
     });
   }
 
-  async findOne(chatId: string, count=-10): Promise<ChatCompletionMessage[]> {
+  async findLatest(chatId: string, count=10): Promise<ChatCompletionMessage[]> {
+    const negativeCount = count === 0 ? 0 : (count * -1);
     const listKey = this._buildListKey(chatId);
-    const messages = await this.redisClient.lRange(listKey, count, -1);
+    const messages = await this.redisClient.lRange(listKey, negativeCount, -1);
     return messages.map(message => JSON.parse(message));
   }
 
   private _buildListKey(chatId: string): string {
-    return `namespace:${chatId}`;
+    return `messageId:${chatId}`;
   }
 
   private _buildListValues(data: ChatCompletionMessage[]): string[] {
