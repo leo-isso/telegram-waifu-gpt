@@ -9,14 +9,14 @@ import Redis from "./cache";
 // Environment setup
 dotenv.config();
 
+// Cache setup
+export const cache = new Redis();
+cache.init();
+
 // Database setup
 const db = new Database("sqlite.db");
 AppDataSource.initialize();
 db.close();
-
-// Cache setup
-export const cache = new Redis();
-cache.init();
 
 // Bot setup with long polling
 const telegramBot = new TelegramBot();
