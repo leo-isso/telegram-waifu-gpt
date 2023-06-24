@@ -15,6 +15,8 @@ OPENAI_API_MODEL=<gpt_model> # eg: gpt-3.5-turbo
 TELEGRAM_BOT_KEY=<your_bot_key>
 SERVER_HOST=http://localhost
 SERVER_PORT=3000
+REDIS_HOST=redis # Set either the name of the service on docker-compose.yml or the redis url 
+REDIS_PORT=6379
 REDIS_PASSWORD=<your_redis_password>
 #DEBUG="grammy*" # To debug grammy bot
 ```
