@@ -3,8 +3,6 @@ import { ChatCompletionRequestMessage } from "openai";
 import TelegramBot from ".";
 import ChatService from "../domains/chat/service";
 import openai from "../openai";
-import nyanna from "../openai/personalities/nyanna";
-import PersonalityPrompt from "../openai/personalityPrompt";
 import MessageService from "../domains/message/service";
 import MessageCache from "../domains/message/cache";
 import { ChatCompletionMessage } from "../domains/message/messages.types";
