@@ -8,19 +8,18 @@ import PersonalityPrompt from "../openai/personalityPrompt";
 import MessageService from "../domains/message/service";
 import MessageCache from "../domains/message/cache";
 import { ChatCompletionMessage } from "../domains/message/messages.types";
-import logger from "../logger";
+import PromptComposer from "../openai/prompts/PromptComposer";
 
-const personalityPrompt = new PersonalityPrompt(nyanna).getPersonalityPrompt();
 export function initTelegramBot(telegramBot: TelegramBot) {
   telegramBot.bot.command("start",
     async (ctx) => {
-      const messages: ChatCompletionRequestMessage[] = [
-        ...personalityPrompt,
+      const promptComposer = new PromptComposer([
         {
           role: "system",
           content: "Introduce yourself, greet the user, and ask him how he is doing."
         }
-      ];
+      ]);
+      const messages = promptComposer.compose();
 
       // Creates or get user
       const userId = ctx.from?.id;
@@ -66,17 +65,16 @@ export function initTelegramBot(telegramBot: TelegramBot) {
             }))
             .reverse();
         }
-        const userMessage: ChatCompletionRequestMessage = {
+        const userMessage: ChatCompletionRequestMessage[] = [{
           role: "user",
           content: userMessageContent
-        };
+        }];
 
-        // Sets message history
-        const messages: ChatCompletionMessage[] = [
-          ...personalityPrompt,
-          ...latestChatMessages,
-          userMessage
-        ];
+        const promptComposer = new PromptComposer(
+          userMessage,
+          latestChatMessages
+        );
+        const messages = promptComposer.compose();
 
         // Gets ChatGPT response
         const gpt_response = await openai.createChatCompletion(messages);
@@ -84,7 +82,7 @@ export function initTelegramBot(telegramBot: TelegramBot) {
 
         // Create new messages list
         const newMessages: ChatCompletionRequestMessage[] = [
-          userMessage,
+          ...userMessage,
           { role: "assistant", content: chat_gpt_answer }
         ];
 
