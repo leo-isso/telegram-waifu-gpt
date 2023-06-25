@@ -1,59 +1,38 @@
-import { Chat } from "../../domains/chat/entities";
-import ChatService from "../../domains/chat/service";
 import { ChatCompletionMessage } from "../../domains/message/messages.types";
-import MessageService from "../../domains/message/service";
-import PromptComposer from "../../openai/prompts/PromptComposer";
 import { IBotActions } from "./BotActionsInterface";
-import openai from "../../openai";
+import BaseAction from "./BaseAction";
 
 const START_PROMPT: ChatCompletionMessage = {
   role: "system",
   content: "Introduce yourself, greet the user, and ask him how he is doing."
 };
 
-class StartAction implements IBotActions {
-  userId: number;
-  message: string | null = null;
+class StartAction extends BaseAction implements IBotActions {
+  private message: string | null = null;
 
   constructor(userId: number) {
-    this.userId = userId;
+    super(userId);
   }
 
-  private async saveMessages(chatId: string, prompts: ChatCompletionMessage[]): Promise<void> {
-    for (const prompt of prompts) {
-      await MessageService.create(
-        prompt.role,
-        prompt.content,
-        chatId,
-      );
-    } 
+  getMessage(): string | null {
+    return this.message;
   }
 
-  private async getOrCreateChat(): Promise<Chat> {
-    return await ChatService.getOrCreate(this.userId);
-  }
-
-  private composeMessages(newPrompts: ChatCompletionMessage[]): ChatCompletionMessage[] {
-    const promptComposer = new PromptComposer(newPrompts);
-    return promptComposer.compose();
-  }
-
-  private async getAIResponse(prompts: ChatCompletionMessage[]): Promise<ChatCompletionMessage | null> {
-    const gpt_response = await openai.createChatCompletion(prompts);
-    return gpt_response.data.choices[0]?.message || null;
+  protected setMessage(message: string): void {
+    this.message = message;
   }
 
   async processMessage(): Promise<void> {
-    const chat = await this.getOrCreateChat();
-    const prompts = this.composeMessages([START_PROMPT]);
-    const AIResponse = await this.getAIResponse(prompts);
+    const chat = await super.getOrCreateChat();
+    const prompts = super.composeMessages([START_PROMPT]);
+    const AIResponse = await super.getAIResponse(prompts);
 
     if (AIResponse) {
-      this.message = AIResponse.content;
+      this.setMessage(AIResponse.content);
       const newMessages = [...prompts, AIResponse];
-      await this.saveMessages(chat.id, newMessages);
+      await super.saveMessages(chat.id, newMessages);
     } else {
-      this.message = "Sorry, an error occurred.";
+      this.setMessage("Sorry, an error occurred.");
     }
   }
 }

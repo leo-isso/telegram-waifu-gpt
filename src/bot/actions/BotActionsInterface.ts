@@ -1,5 +1,5 @@
 export interface IBotActions {
   userId: number,
-  message: string | null,
+  getMessage(): string | null,
   processMessage(): Promise<void>,
 }
