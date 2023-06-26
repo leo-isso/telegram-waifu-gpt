@@ -11,7 +11,8 @@ class PromptComposer {
   constructor(
     newPrompts: ChatCompletionMessage[],
     latestPrompts: ChatCompletionMessage[] | null=null,
-    includePersonality=true) {
+    includePersonality=true
+  ) {
     this.newPrompts = newPrompts;
     this.latestPrompts = latestPrompts;
     this.includePersonality = includePersonality;
@@ -25,7 +26,7 @@ class PromptComposer {
     if (this.latestPrompts && this.latestPrompts.length > 0) {
       composedPrompt = [...composedPrompt, ...this.latestPrompts];
     }
-    composedPrompt = [...composedPrompt, ...this.newPrompts]
+    composedPrompt = [...composedPrompt, ...this.newPrompts];
 
     return composedPrompt;
   }
