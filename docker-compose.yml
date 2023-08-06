@@ -11,10 +11,20 @@ services:
     ports:
       - '6379:6379'
     command: redis-server --save 30 1 --requirepass ${REDIS_PASSWORD}
-    volumes: 
+    volumes:
       - cache:/data
     env_file:
-        - '.env'
+      - '.env'
+  postgres:
+    image: postgres:15.3-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DATABASE}
+    env_file:
+      - '.env'
 volumes:
   cache:
     driver: local

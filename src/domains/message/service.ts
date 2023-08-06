@@ -17,7 +17,7 @@ class MessageService {
     chatMessage.role = role;
     chatMessage.message = message;
     chatMessage.chatId = chatId;
-    chatMessage.createdAt = dateNowToTimestamp();
+    chatMessage.createdAt = new Date();
 
     return await MessageService.repository.save(chatMessage);
   }

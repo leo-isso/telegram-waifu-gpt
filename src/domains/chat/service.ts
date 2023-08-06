@@ -1,6 +1,5 @@
 import { Chat } from "./entities";
 import { AppDataSource } from "../../data/typeorm";
-import { dateNowToTimestamp } from "../../utils/datetime";
 
 class ChatService {
   static repository = AppDataSource.getRepository(Chat);
@@ -8,7 +7,7 @@ class ChatService {
   static async create(userId: number) {
     const chat = new Chat();
     chat.userId = userId;
-    chat.createdAt = dateNowToTimestamp();
+    chat.createdAt = new Date();
 
     return await ChatService.repository.save(chat);
   }

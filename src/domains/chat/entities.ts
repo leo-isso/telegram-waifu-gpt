@@ -13,7 +13,6 @@ export class Chat {
   @OneToMany(() => Message, message => message.chat)
   messages: Relation<Message>[];
 
-  // createdAt as Timestamp
-  @Column({ type: "integer" })
-  createdAt: number;
+  @Column({ type: "timestamptz" })
+  createdAt: Date;
 }
