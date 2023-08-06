@@ -5,8 +5,11 @@
   "type": "module",
   "main": "index.ts",
   "scripts": {
-    "dev": "REDIS_HOST=localhost npm run build && npm run start",
     "build": "rimraf build && tsc && rollup -c rollup.config.js",
+    "dev": "REDIS_HOST=localhost npm run build && npm run start",
+    "migration:generate": "typeorm migration:generate",
+    "migration:revert": "typeorm migration:revert -- -d",
+    "migration:run": "typeorm migration:run -- -d",
     "start": "node build/bundle.cjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -35,6 +38,7 @@
     "grammy": "^1.16.1",
     "node-fetch": "^3.3.1",
     "openai": "^3.2.1",
+    "pg": "^8.11.2",
     "redis": "^4.6.7",
     "sequelize": "^6.31.1",
     "sqlite3": "^5.1.6",
