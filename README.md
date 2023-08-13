@@ -4,7 +4,7 @@ An AI companion and assistant with a cute anime-girl personality!
 
 ## Environment Variables
 
-Before building and running your project, create a `.env` file, and add the following variables:
+Before building and running your project, create a `.env` file that is going to be used when you run the `start` script, also create e `.env.local` file that will be used when you run the `dev` script, and add the following variables:
 
 *You need an [OpenAI](https://platform.openai.com) account to use the project*
 
@@ -40,7 +40,7 @@ You can run the build with `npm run start`.
 
 ## Docker Compose
 
-In order to make deployes easier, and also add other services, like Redis, you can run the project with `docker-compose`:
+In order to make deploys easier, and also add other services, like Redis, you can run the project with `docker-compose`:
 
 Build the docker-compose:
 

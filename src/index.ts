@@ -1,12 +1,9 @@
-import * as dotenv from "dotenv";
-
 import { AppDataSource } from "./data/typeorm";
 import TelegramBot from "./bot";
 import Server from "./server";
 import Redis from "./cache";
 
-// Environment setup
-dotenv.config();
+console.log(process.env);
 
 // Cache setup
 export const cache = new Redis();

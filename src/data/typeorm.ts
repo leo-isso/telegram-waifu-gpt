@@ -5,6 +5,7 @@ import { Message } from "../domains/message/entities";
 export const AppDataSource = new DataSource({
   type: "postgres",
   port: parseInt(process.env.POSTGRES_PORT || ""),
+  host: process.env.POSTGRES_HOST,
   database: process.env.POSTGRES_DATABASE,
   username: process.env.POSTGRES_USERNAME,
   password: process.env.POSTGRES_PASSWORD,

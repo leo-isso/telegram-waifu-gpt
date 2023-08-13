@@ -5,6 +5,9 @@ import { ChatCompletionMessage } from "../../domains/message/messages.types";
 import MessageService from "../../domains/message/service";
 import PromptComposer from "../../openai/prompts/PromptComposer";
 import openai from "../../openai";
+import Personality from "../../openai/personality";
+
+const PERSONALITY = new Personality("nyanna");
 
 class BaseAction {
   userId: number;
@@ -16,17 +19,17 @@ class BaseAction {
     this.newMessage = newMessage || null;
   }
 
-  async cacheMessages(chatId:string, prompts: ChatCompletionMessage[]): Promise<void> {
+  async cacheMessages(chatId: string, prompts: ChatCompletionMessage[]): Promise<void> {
     await this.messageCache.create(chatId, prompts);
   }
 
-  async getLatestMessages(chatId: string): Promise<ChatCompletionMessage[]>{
+  async getLatestMessages(chatId: string): Promise<ChatCompletionMessage[]> {
     const cachedLatestMessages: ChatCompletionMessage[] = await this.messageCache.findLatest(chatId);
-    
+
     if (cachedLatestMessages.length > 0) {
       return cachedLatestMessages;
     }
-    
+
     return (await MessageService.getLatestMessages(chatId))
       .map(message => ({
         role: message.role,
@@ -42,7 +45,7 @@ class BaseAction {
         prompt.content,
         chatId,
       );
-    } 
+    }
   }
 
   async getOrCreateChat(): Promise<Chat> {
@@ -61,10 +64,10 @@ class BaseAction {
 
   composeMessages(
     newPrompts: ChatCompletionMessage[],
-    latestPrompts: ChatCompletionMessage[]=[],
-    includePersonality=true,
+    latestPrompts: ChatCompletionMessage[] = [],
+    includePersonality = true,
   ): ChatCompletionMessage[] {
-    const promptComposer = new PromptComposer(newPrompts, latestPrompts, includePersonality);
+    const promptComposer = new PromptComposer(PERSONALITY, newPrompts, latestPrompts, includePersonality);
     return promptComposer.compose();
   }
 
