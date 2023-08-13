@@ -5,11 +5,12 @@
   "main": "index.ts",
   "scripts": {
     "build": "rimraf build && tsc",
-    "dev": "DOTENV_CONFIG_PATH=.env.local npm run build && npm run start",
+    "dev": "npm run build && npm run start:local",
     "migration:generate": "typeorm migration:generate",
     "migration:revert": "typeorm migration:revert -- -d",
     "migration:run": "typeorm migration:run -- -d",
     "start": "node -r dotenv/config build/index.js",
+    "start:local": "DOTENV_CONFIG_PATH=.env.local node -r dotenv/config build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
