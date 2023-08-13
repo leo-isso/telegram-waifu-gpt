@@ -29,8 +29,7 @@ class PersonalityImporter {
 
   getPersonalityContent() {
     try {
-      const currentDir = path.resolve();
-      const filePath = path.join(currentDir, `${this.name}.json`);
+      const filePath = path.join(__dirname, `./personalities/${this.name}.json`);
       const content = fs.readFileSync(filePath, "utf-8");
       return this.parseAndReplaceContent(content);
     } catch {
