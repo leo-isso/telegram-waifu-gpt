@@ -3,6 +3,8 @@ import TelegramBot from "./bot";
 import Server from "./server";
 import Redis from "./cache";
 
+console.log(process.env);
+
 // Cache setup
 export const cache = new Redis();
 cache.init();
