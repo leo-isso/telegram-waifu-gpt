@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "esnext",
+    "target": "ES2021",
+    "module": "NodeNext",
     "moduleResolution": "node",
     "noEmitOnError": true,
     "lib": [
@@ -9,16 +9,20 @@
       "DOM"
     ],
     "strict": true,
-    "esModuleInterop": false,
+    "esModuleInterop": true,
     "outDir": "build",
-    "rootDir": "./",
+    "rootDir": "./src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "strictPropertyInitialization": false,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
   },
   "include": [
-    "src/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.json"
   ],
   "exclude": [
     "build"
